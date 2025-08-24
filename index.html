@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store ID Comparator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Store ID Comparator</h1>
+            <p>Compare two lists of store IDs and find the differences</p>
+        </div>
+
+        <div id="alerts"></div>
+
+        <!-- File Selection Section -->
+        <div class="card">
+            <div class="card-header">File Selection</div>
+            <div class="card-body">
+                <!-- File 1 -->
+                <div class="file-section">
+                    <h3>File 1</h3>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="file1-upload" name="file1-mode" value="upload" checked>
+                            <label for="file1-upload">Upload from file</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="file1-manual" name="file1-mode" value="manual">
+                            <label for="file1-manual">Enter manually</label>
+                        </div>
+                    </div>
+                    
+                    <div id="file1-upload-container" class="upload-container">
+                        <div class="file-input-group">
+                            <input type="file" id="file1-input" accept=".txt,.csv" />
+                            <button type="button" class="btn" onclick="clearFile('file1')">Clear</button>
+                        </div>
+                        <div id="file1-info" class="file-info"></div>
+                    </div>
+                    
+                    <div id="file1-manual-container" class="textarea-container">
+                        <label for="file1-textarea">Enter Store IDs (one per line):</label>
+                        <textarea id="file1-textarea" placeholder="Enter store IDs, one per line...&#10;123&#10;456&#10;789"></textarea>
+                    </div>
+                </div>
+
+                <!-- File 2 -->
+                <div class="file-section">
+                    <h3>File 2</h3>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="file2-upload" name="file2-mode" value="upload" checked>
+                            <label for="file2-upload">Upload from file</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="file2-manual" name="file2-mode" value="manual">
+                            <label for="file2-manual">Enter manually</label>
+                        </div>
+                    </div>
+                    
+                    <div id="file2-upload-container" class="upload-container">
+                        <div class="file-input-group">
+                            <input type="file" id="file2-input" accept=".txt,.csv" />
+                            <button type="button" class="btn" onclick="clearFile('file2')">Clear</button>
+                        </div>
+                        <div id="file2-info" class="file-info"></div>
+                    </div>
+                    
+                    <div id="file2-manual-container" class="textarea-container">
+                        <label for="file2-textarea">Enter Store IDs (one per line):</label>
+                        <textarea id="file2-textarea" placeholder="Enter store IDs, one per line...&#10;123&#10;456&#10;789"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compare Section -->
+        <div class="compare-section">
+            <button id="compare-btn" class="compare-btn" onclick="compareFiles()">
+                Compare Files
+            </button>
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>Comparing files...</p>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="results-section card">
+            <div class="card-header">Results</div>
+            <div class="card-body">
+                <div class="tabs">
+                    <button class="tab active" onclick="showTab('only-file1')">Only in File 1</button>
+                    <button class="tab" onclick="showTab('only-file2')">Only in File 2</button>
+                </div>
+                
+                <div class="tab-content">
+                    <div id="only-file1" class="tab-pane active">
+                        <textarea id="result1-text" class="result-text" readonly placeholder="Results will appear here..."></textarea>
+                    </div>
+                    <div id="only-file2" class="tab-pane">
+                        <textarea id="result2-text" class="result-text" readonly placeholder="Results will appear here..."></textarea>
+                    </div>
+                </div>
+
+                <div class="stats" id="stats" style="display: none;">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number" id="file1-count">0</div>
+                            <div class="stat-label">Total IDs in File 1</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="file2-count">0</div>
+                            <div class="stat-label">Total IDs in File 2</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="only-file1-count">0</div>
+                            <div class="stat-label">Only in File 1</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="only-file2-count">0</div>
+                            <div class="stat-label">Only in File 2</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="common-count">0</div>
+                            <div class="stat-label">Common IDs</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn" onclick="copyResult('result1-text')">Copy Result 1</button>
+                    <button class="btn" onclick="copyResult('result2-text')">Copy Result 2</button>
+                    <button class="btn btn-success" onclick="downloadResults()">Download Results</button>
+                    <button class="btn btn-warning" onclick="downloadCombined()">Download Combined</button>
+                    <button class="btn btn-danger" onclick="clearResults()">Clear Results</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
